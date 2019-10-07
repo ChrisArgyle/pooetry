@@ -1,0 +1,4 @@
+*.pyc
+explore/
+settings.json
+.python-version
