@@ -1,2 +1,0 @@
-pytest==5.2.1
-pytest-mock==1.11.1
