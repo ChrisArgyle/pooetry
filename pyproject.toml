@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "pooetry"
+version = "0.1.1"
+description = "An almost-useless wrapper for the great packaging tool poetry"
+authors = ["ChrisArgyle <chrisisdiy@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/ChrisArgyle/pooetry"
+repository = "https://github.com/ChrisArgyle/pooetry"
+
+[tool.poetry.dependencies]
+python = "^3.6"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+pytest-mock = "^1.11"
+pylint = "^2.4"
+autopep8 = "^1.4"
+
+[tool.poetry.scripts]
+pooetry = 'pooetry:main.main'
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
