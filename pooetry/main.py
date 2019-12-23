@@ -1,5 +1,7 @@
 from copy import copy
 import os
+import rfc3986
+from rfc3986 import uri_reference, validators
 import shutil
 import sys
 import urllib.parse as urlparse
@@ -35,13 +37,22 @@ def fix_creds(url):
     Encode credentials in a `url` containing unencoded credentials
     """
     # process url with urlparse
-    parsed_url = urlparse.urlparse(url)
+    parsed_url = uri_reference(url)
 
-    # separate netloc into creds and host
+    # separate authority into creds and host
     try:
-        creds, host = parsed_url.netloc.rsplit('@', 1)
+        creds, host = parsed_url.authority.rsplit('@', 1)
     except ValueError:
         # don't modify the url if there are no creds
+        return url
+
+    # don't modify the url if the authority section is already valid
+    try:
+        validator = validators.Validator().check_validity_of('userinfo')
+        validator.validate(parsed_url)
+    except rfc3986.exceptions.InvalidComponentsError:
+        pass
+    else:
         return url
 
     # separate creds into user and password
@@ -50,11 +61,11 @@ def fix_creds(url):
     # urlencode user and password
     fixed_creds = f'{urlparse.quote(user)}:{urlparse.quote(password)}'
 
-    # reconstruct netloc with urlencoded creds
-    fixed_url = parsed_url._replace(netloc=f'{fixed_creds}@{host}')
+    # reconstruct authority with urlencoded creds
+    fixed_url = parsed_url.copy_with(authority=f'{fixed_creds}@{host}')
 
     # return fixed url
-    return fixed_url.geturl()
+    return fixed_url.unsplit()
 
 
 def main():
