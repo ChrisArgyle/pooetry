@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pooetry"
-version = "0.1.2"
+version = "0.1.3"
 description = "An almost-useless wrapper for the great packaging tool poetry"
 authors = ["ChrisArgyle <chrisisdiy@gmail.com>"]
 license = "MIT"
