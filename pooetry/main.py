@@ -69,7 +69,7 @@ def main():
     libdir = f'{dirname}/../lib'
     sys.path.insert(0, libdir)
 
-    import poetry
+    from poetry import console as poetry_console
     from poetry.installation.pip_installer import PipInstaller
 
     # check stuff that would disable patching
@@ -96,7 +96,7 @@ def main():
         pass
 
     # call poetry
-    poetry.console.main()
+    poetry_console.main()
 
 
 if __name__ == "__main__":
