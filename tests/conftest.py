@@ -23,6 +23,7 @@ def pip_mock(mocker):
 
 @pytest.fixture
 def poetry_mock(mocker, add_poetry_to_libdir):
+    # pylint: disable=import-error
     import poetry
     mocker.patch('poetry.installation.pip_installer.PipInstaller.run')
     mocker.patch('poetry.console.main')
