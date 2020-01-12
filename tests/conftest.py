@@ -18,12 +18,14 @@ def poetry_mock(mocker):
     try:
         # pylint: disable=import-error
         import poetry
-    except ImportError:
+    except ModuleNotFoundError:
         # try to import poetry installed via get-poetry.py
         path = shutil.which("poetry")
         dirname = os.path.dirname(path)
         libdir = f'{dirname}/../lib'
         sys.path.insert(0, libdir)
+
+        import poetry
 
     # set up relevant mocks
     mocker.patch('poetry.installation.pip_installer.PipInstaller.run')
