@@ -13,6 +13,8 @@ def add_poetry_to_libdir():
     libdir = f'{dirname}/../lib'
 
     sys.path.insert(0, libdir)
+    print(f'DEBUG here is poetry libdir contents "{os.listdir(libdir)}"')
+    raise Exception()
 
 
 @pytest.fixture
