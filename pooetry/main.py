@@ -80,8 +80,11 @@ def main():
     libdir = f'{dirname}/../lib'
     sys.path.insert(0, libdir)
 
+    # pylint: disable=import-error
     import poetry
+    # pylint: disable=import-error
     from poetry import console as poetry_console
+    # pylint: disable=import-error
     from poetry.installation.pip_installer import PipInstaller
 
     # check stuff that would disable patching

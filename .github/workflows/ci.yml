@@ -1,0 +1,47 @@
+name: Lint and test
+
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the master branch
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  pylint:
+    name: pylint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Install
+        uses: abatilo/actions-poetry@v1.3.0
+        with:
+          python_version: 3.6.7
+          poetry_version: 0.12.17
+          args: install
+      - name: Run pylint
+        uses: abatilo/actions-poetry@v1.3.0
+        with:
+          python_version: 3.6.7
+          poetry_version: 0.12.17
+          args: run pylint pooetry/ tests/
+  pytest:
+    name: pytest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Install
+        uses: abatilo/actions-poetry@v1.3.0
+        with:
+          python_version: 3.6.7
+          poetry_version: 0.12.17
+          args: install
+      - name: Run pytest
+        uses: abatilo/actions-poetry@v1.3.0
+        with:
+          python_version: 3.6.7
+          poetry_version: 0.12.17
+          args: run pytest --cov=pooetry --cov-branch tests/

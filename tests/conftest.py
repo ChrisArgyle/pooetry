@@ -7,25 +7,30 @@ import sys
 
 
 @pytest.fixture
-def add_poetry_to_libdir():
-    path = shutil.which("poetry")
-    dirname = os.path.dirname(path)
-    libdir = f'{dirname}/../lib'
-
-    sys.path.insert(0, libdir)
-
-
-@pytest.fixture
 def pip_mock(mocker):
     yield pip
     importlib.reload(pip)
 
 
 @pytest.fixture
-def poetry_mock(mocker, add_poetry_to_libdir):
-    import poetry
+def poetry_mock(mocker):
+    # try to import poetry installed via pip
+    try:
+        # pylint: disable=import-error
+        import poetry
+    except ModuleNotFoundError:
+        # try to import poetry installed via get-poetry.py
+        path = shutil.which("poetry")
+        dirname = os.path.dirname(path)
+        libdir = f'{dirname}/../lib'
+        sys.path.insert(0, libdir)
+
+        import poetry
+
+    # set up relevant mocks
     mocker.patch('poetry.installation.pip_installer.PipInstaller.run')
     mocker.patch('poetry.console.main')
+
     yield poetry
     importlib.reload(poetry)
 
